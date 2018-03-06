@@ -40,4 +40,4 @@ library
                   , matrix
                     -- hmatrix-gsl requires LAPACK and BLAS libraries
                     -- apt install libblas-dev liblapack-dev libgsl0-dev
-                  , hmatrix-gsl
+                    -- , hmatrix-gsl

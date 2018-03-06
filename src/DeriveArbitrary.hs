@@ -8,6 +8,7 @@ module DeriveArbitrary
 , Optimization.without
 , Optimization.types
 , Optimization.constructors
+, Prediction.confirm
 ) where
 
 import Language.Haskell.TH

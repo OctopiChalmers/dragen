@@ -175,9 +175,9 @@ instance Countable T2''
 -- deriveArbitrary ''BuiltIn    10 uniform
 -- deriveArbitrary ''T1         10 uniform
 -- deriveArbitrary ''TupIntBool 10 uniform
--- deriveArbitrary ''Rose       10 uniform
+deriveArbitrary ''Rose       10 uniform
 -- deriveArbitrary ''T1'       10 uniform
-deriveArbitrary ''T1''       10 uniform
+-- deriveArbitrary ''T1''       10 uniform
 
 -- deriveArbitrary ''Weighted   10 (weighted [('LeafW1, 10), ('LeafW2, 1)])
 -- deriveArbitrary ''Weighted'  10 (weighted [('Branch1W', 5), ('Branch2W', 1)])

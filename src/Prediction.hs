@@ -74,7 +74,6 @@ normalizeTerminals env freqMap = Map.mapWithKey freqRatio terminalsMap
     freqSum cn = Map.foldr (+) 0 (filterKeys (isSibling env cn) terminalsMap)
 
 
-
 genGWMatrix :: TypeEnv -> ProbMap -> Matrix Double
 genGWMatrix env probMap = matrix size size genElem
   where
@@ -83,51 +82,6 @@ genGWMatrix env probMap = matrix size size genElem
     multProb (cn, occs) = probMap ! cn * fromIntegral occs
     occsFromTo from to = map (conOccurrences to) (tcons from)
     conOccurrences to con = (cname con, occurrences (tsig to) con)
-
-
--- predict :: TypeEnv -> Size -> FreqMap -> ProbMap
--- predict env size freqs = Map.unionWith (+) firstLevels lastLevel
---   where
---     allProbs = normalize env freqs
---     termProbs = normalizeTerminals env freqs
-
---     mT = genGWMatrix env allProbs
-
---     ez0 = fromList 1 (length env) (1 : repeat 0)
-
---     genLevel 0 = ez0
---     genLevel k = ez0 * (mT^k)
-
---     -- Note: Matrix quotient isn't formally defined, and A/B is usually taken
---     -- as a convention for A*(B^-1). But since matrix multiplication isn't
---     -- commutative, it is not always the case that A*(B^-1) == (B^-1)*A. Using
---     -- both multiplications gave us wrong predictions in most cases, so we use
---     -- the geometric series simplification only for the cases that mT has size
---     -- 1x1 and mT(1,1) ≠ 1.
-
---     {- First levels -}
---     firstLevels = Map.mapWithKey multTypeExp allProbs
---       where
---         multTypeExp cn cp
---           | length env == 1 && mT11 /= 1 =  cp * ((1 - mT11^size) / (1 - mT11))
---           | otherwise = cp * typeExp ! (tsig (conType env cn))
-
---         mT11 = getElem 1 1 mT
---         typeExp = Map.fromList (zip (typeSigs env) (toList predMatrix))
---         predMatrix = foldr1 (+) (map genLevel [0..size-1])
-
---     {- Last level -}
---     lastLevel = Map.mapWithKey sumTermExp termProbs
---       where
---         sumTermExp tn tp
---           = sum [ tp
---                 * allProbs ! (cname con)
---                 * occurrences (tsig (conType env tn)) con
---                 * prevLvlExp ! (tsig (conType env (cname con)))
---                 | con <- concatMap tcons env ]
-
---         occurrences ts con = fromIntegral (countSat (==ts) (cargs con))
---         prevLvlExp = Map.fromList (zip (typeSigs env) (toList (genLevel (size-1))))
 
 
 -- Predicts the distribution for a given type constructor frequencies map.
@@ -243,4 +197,7 @@ confirm size arb = do
   values <- sequence (replicate samples (generate (resize size arb)))
   let consCount = Map.unionsWith (+) (map count values)
       consAvg = Map.map (\c -> fromIntegral c / fromIntegral samples) consCount
-  print consAvg
+  putStrLn (showMap consAvg)
+  
+  -- mapM_ (putStrLn . ("*" ++) . show) (Map.toList consAvg)
+  --print consAvg

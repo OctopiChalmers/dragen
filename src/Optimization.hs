@@ -4,7 +4,6 @@ import Data.List
 import Data.Maybe
 import Data.Ord
 import qualified Data.Map.Strict as Map
-import Numeric.GSL.Minimization
 
 import Prediction
 import TypeInfo
@@ -17,7 +16,6 @@ dot x = unsafePerformIO (putStr "*" >> hFlush stdout >> return x)
 
 epsilon :: Double
 epsilon = 0.0001
-
 
 type CostFunction = TypeEnv -> Size -> FreqMap -> Double
 
@@ -99,7 +97,6 @@ localSearch env size heat cost focus visited
     gainRatio = bestNeighborCost / focusCost
     newFrontier = newNeighbors ++ (take (length env ^ 2)) visited
 
-
 neighborhood :: FreqMap -> Heat -> [FreqMap]
 neighborhood freqs heat = map (Map.fromList . zip names) neighborFreqs
   where
@@ -113,18 +110,3 @@ neighborhood freqs heat = map (Map.fromList . zip names) neighborFreqs
     notBuiltInFreqs = filter (not . builtIn) (take (length names) [0..])
     builtIn i = Map.member (names !! i) builtInFreqs
 
-
---
--- Nelder-Mead optimization method. It crashes sometimes.
---
-optimizeNM :: TypeEnv -> Size -> CostFunction -> FreqMap -> FreqMap
-optimizeNM env size cost initFreqs = Map.fromList (zip names (approx optimized))
-  where
-    (names, ints) = unzip (Map.toList initFreqs)
-    (optimized, _) = minimize NMSimplex2 epsilon 300 boxSize (cost' env size) start
-    start = map fromIntegral ints
-    boxSize = take (Map.size initFreqs) (repeat 100)
-    approx = map (floor . (/epsilon))
-    cost' env size freqs
-      | any (<=0) freqs = dot $ 1000000000    -- pseudo-infinite
-      | otherwise = dot $ cost env size (Map.fromList (zip names (map floor freqs)))

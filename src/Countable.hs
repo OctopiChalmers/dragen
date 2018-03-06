@@ -82,7 +82,6 @@ import qualified Data.Map.Strict as Map
     count1 (GNode (GNode GLeaf "a" GLeaf) "b" (GNode GLeaf "c" GLeaf))
     ==> fromList [("GLeaf",4),("GNode",3)]
 
-
 -}
 
 type ConsMap = Map String Int

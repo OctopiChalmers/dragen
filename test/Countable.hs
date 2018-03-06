@@ -1,11 +1,10 @@
 {-# LANGUAGE DeriveGeneric  #-}
 {-# LANGUAGE StandaloneDeriving #-}
 
-module TestCountable where
+module Countable where
 
 import GHC.Generics
 import Countable
-
 
 ----------------------------------------
 
