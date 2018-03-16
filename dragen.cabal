@@ -1,13 +1,8 @@
 name:               dragen
 version:            0.1.0.0
 synopsis:           Derivation of RAndom GENerators
-homepage:           https://bitbucket.org/agustinmista/dragen
 license:            BSD3
 license-file:       LICENSE
-author:             Alejandro Russo
-                  , Agustín Mista
-maintainer:         amista@dcc.fceia.unr.edu.ar
-copyright:          2017 Alejandro Russo 
 category:           Testing
 build-type:         Simple
 extra-source-files: README.md
@@ -17,7 +12,7 @@ library
   hs-source-dirs:   src 
   exposed-modules:
                     Countable
-                    DeriveArbitrary
+                    Dragen
                     TypeInfo
                     Reification
                     Prediction
@@ -26,7 +21,7 @@ library
                     Megadeth
 
   default-language: Haskell2010
-  ghc-options: -O2 -optc-O3 -threaded -rtsopts -ddump-splices
+  ghc-options: -O2 -optc-O3 -ddump-splices
 
   build-depends:
                     base >= 4.7 && < 5
@@ -38,6 +33,3 @@ library
                   , ghc-prim
                   , split
                   , matrix
-                    -- hmatrix-gsl requires LAPACK and BLAS libraries
-                    -- apt install libblas-dev liblapack-dev libgsl0-dev
-                    -- , hmatrix-gsl

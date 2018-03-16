@@ -198,6 +198,3 @@ confirm size arb = do
   let consCount = Map.unionsWith (+) (map count values)
       consAvg = Map.map (\c -> fromIntegral c / fromIntegral samples) consCount
   putStrLn (showMap consAvg)
-  
-  -- mapM_ (putStrLn . ("*" ++) . show) (Map.toList consAvg)
-  --print consAvg

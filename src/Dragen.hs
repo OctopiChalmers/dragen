@@ -1,7 +1,7 @@
 {-# LANGUAGE BangPatterns #-}
 
-module DeriveArbitrary
-( deriveArbitrary
+module Dragen
+( dragenArbitrary
 , Optimization.uniform
 , Optimization.weighted
 , Optimization.only
@@ -27,8 +27,8 @@ putStrLnQ = runIO . putStrLn
 -- Derives an Abitrary instance for the type _target_, optimizing each type
 -- constructor frequency in order to minimize the output of a given cost
 -- function.
-deriveArbitrary  :: Name -> Size -> CostFunction -> DecsQ
-deriveArbitrary target size cost = do
+dragenArbitrary  :: Name -> Size -> CostFunction -> DecsQ
+dragenArbitrary target size cost = do
 
   putStrLnQ $ "\nReifiying: " ++ show target
 
@@ -39,22 +39,26 @@ deriveArbitrary target size cost = do
 
   let !freqMap = initMap targetEnv
       !prediction = predict targetEnv size freqMap
+      !initCost = cost targetEnv size freqMap
 
   putStrLnQ $ "\nInitial frequencies map:"
   putStrLnQ $ showMap freqMap
   putStrLnQ $ "\nPredicted distribution for the initial frequencies map:"
   putStrLnQ $ showMap prediction
-  putStrLnQ $ "Cost: " ++ show (cost targetEnv size freqMap)
-
+  
   putStrLnQ $ "\nOptimizing the frequencies map:"
   let !optimized = optimizeLS targetEnv size cost freqMap
       !prediction' = predict targetEnv size optimized
+      !finalCost = cost targetEnv size optimized
 
   putStrLnQ $ "\n\nOptimized frequencies map:"
   putStrLnQ $ showMap optimized
   putStrLnQ $ "\nPredicted distribution for the optimized frequencies map:"
   putStrLnQ $ showMap prediction'
-  putStrLnQ $ "Cost: " ++ show (cost targetEnv size optimized)
+  
+  putStrLnQ $ "\nInitial cost: " ++ show initCost
+  putStrLnQ $ "Final cost: " ++ show finalCost
+  putStrLnQ $ "Optimization ratio: " ++ show (initCost / finalCost)
 
   putStrLnQ $ "\nDeriving optimized generator..."
   devArbitrary targetEnv optimized target
