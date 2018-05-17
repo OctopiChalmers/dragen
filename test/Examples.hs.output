@@ -40,23 +40,23 @@ Optimization ratio: 4.000132121304503
 
 Deriving optimized generator...
 Visiting:Examples.Tree
-/home/agustin/Source/git/dragen/test/Examples.hs:39:1-33: Splicing declarations
+/home/agustin/Source/git/dragen/test/Examples.hs:40:1-33: Splicing declarations
     dragenArbitrary ''Tree 10 uniform
   ======>
     instance Arbitrary Tree where
       arbitrary
-        = sized go_abNn
+        = sized go_abNv
         where
-            go_abNn n_abNo
-              = if (n_abNo == 0) then
+            go_abNv n_abNw
+              = if (n_abNw == 0) then
                     frequency
                       [(113, return LeafA), (113, return LeafB), (112, return LeafC)]
                 else
                     frequency
                       [(113, return LeafA), (113, return LeafB), (112, return LeafC),
                        (497, 
-                        Node <$> go_abNn ((max 0) (n_abNo - 1))
-                          <*> go_abNn ((max 0) (n_abNo - 1)))]
+                        Node <$> go_abNv ((max 0) (n_abNw - 1))
+                          <*> go_abNv ((max 0) (n_abNw - 1)))]
 
 Reifiying: Examples.T1
 
@@ -76,54 +76,54 @@ Predicted distribution for the initial frequencies map:
  * (Examples.D,0.859375)
 
 Optimizing the frequencies map:
-**************************************************************************************************************************************
+****************************************************************************************************************************************
 
 Optimized frequencies map:
  * (Examples.A,70)
- * (Examples.B,213)
- * (Examples.C,89)
+ * (Examples.B,214)
+ * (Examples.C,90)
  * (Examples.D,199)
 
 Predicted distribution for the optimized frequencies map:
- * (Examples.A,8.667025787257028)
- * (Examples.B,13.725195277382783)
- * (Examples.C,6.058169490125756)
- * (Examples.D,7.6670257872570255)
+ * (Examples.A,8.650325226111388)
+ * (Examples.B,13.742023884162)
+ * (Examples.C,6.091698658050614)
+ * (Examples.D,7.650325226111388)
 
 Initial cost: 30.008520698547365
-Final cost: 3.6634696552371873
-Optimization ratio: 8.191284089291711
+Final cost: 3.662015566744201
+Optimization ratio: 8.194536629244077
 
 Deriving optimized generator...
 Visiting:Examples.T1
 Visiting:Examples.T2
-/home/agustin/Source/git/dragen/test/Examples.hs:72:1-31: Splicing declarations
+/home/agustin/Source/git/dragen/test/Examples.hs:73:1-31: Splicing declarations
     dragenArbitrary ''T1 10 uniform
   ======>
     instance Arbitrary T2 where
       arbitrary
-        = sized go_ad0I
+        = sized go_ad0Q
         where
-            go_ad0I n_ad0J
-              = if (n_ad0J == 0) then
+            go_ad0Q n_ad0R
+              = if (n_ad0R == 0) then
                     return C
                 else
                     frequency
-                      [(89, return C),
-                       (199, D <$> (resize ((max 0) (n_ad0J - 1))) arbitrary)]
+                      [(90, return C),
+                       (199, D <$> (resize ((max 0) (n_ad0R - 1))) arbitrary)]
     instance Arbitrary T1 where
       arbitrary
-        = sized go_ad0K
+        = sized go_ad0S
         where
-            go_ad0K n_ad0L
-              = if (n_ad0L == 0) then
+            go_ad0S n_ad0T
+              = if (n_ad0T == 0) then
                     return A
                 else
                     frequency
                       [(70, return A),
-                       (213, 
-                        B <$> go_ad0K ((max 0) (n_ad0L - 1))
-                          <*> (resize ((max 0) (n_ad0L - 1))) arbitrary)]
+                       (214, 
+                        B <$> go_ad0S ((max 0) (n_ad0T - 1))
+                          <*> (resize ((max 0) (n_ad0T - 1))) arbitrary)]
 
 Reifiying: Examples.Rose
 
@@ -151,51 +151,51 @@ Predicted distribution for the initial frequencies map:
  * (Examples.RNode,0.9130859375)
 
 Optimizing the frequencies map:
-***********
+***************************************************************************************************
 
 Optimized frequencies map:
- * (GHC.Base.Just,298)
+ * (GHC.Base.Just,302)
  * (GHC.Base.Nothing,95)
- * (GHC.Types.:,397)
+ * (GHC.Types.:,415)
  * (GHC.Types.False,100)
  * (GHC.Types.True,100)
- * (GHC.Types.[],1)
+ * (GHC.Types.[],2)
  * (Examples.RLeaf,100)
- * (Examples.RNode,100)
+ * (Examples.RNode,101)
 
 Predicted distribution for the optimized frequencies map:
- * (GHC.Base.Just,8.453368179037742)
- * (GHC.Base.Nothing,2.6948656946596827)
- * (GHC.Types.:,16.603763000012577)
- * (GHC.Types.False,4.226684089518871)
- * (GHC.Types.True,4.226684089518871)
- * (GHC.Types.[],6.45552912631515)
- * (Examples.RLeaf,11.148233873697425)
- * (Examples.RNode,6.455529126315149)
+ * (GHC.Base.Just,8.43227331046645)
+ * (GHC.Base.Nothing,2.6525363062725584)
+ * (GHC.Types.:,16.560942455364646)
+ * (GHC.Types.False,4.216136655233225)
+ * (GHC.Types.True,4.216136655233225)
+ * (GHC.Types.[],6.476132838625638)
+ * (Examples.RLeaf,11.084809616739008)
+ * (Examples.RNode,6.47613283862564)
 
 Initial cost: 70.2835713982582
-Final cost: 19.24740847509439
-Optimization ratio: 3.651586211681598
+Final cost: 19.240719743479303
+Optimization ratio: 3.6528556278190876
 
 Deriving optimized generator...
 Visiting:Examples.Rose
-/home/agustin/Source/git/dragen/test/Examples.hs:98:1-33: Splicing declarations
+/home/agustin/Source/git/dragen/test/Examples.hs:99:1-33: Splicing declarations
     dragenArbitrary ''Rose 10 uniform
   ======>
     instance Arbitrary Rose where
       arbitrary
-        = sized go_ad7g
+        = sized go_ad7o
         where
-            go_ad7g n_ad7h
-              = if (n_ad7h == 0) then
+            go_ad7o n_ad7p
+              = if (n_ad7p == 0) then
                     RLeaf <$> arbitrary
                 else
                     frequency
                       [(100, RLeaf <$> arbitrary),
-                       (100, 
+                       (101, 
                         RNode
                           <$>
-                            (resize ((max 0) (n_ad7h - 1))) ((Arbitrary.customListGen 1) 397))]
+                            (resize ((max 0) (n_ad7p - 1))) ((Arbitrary.customListGen 2) 415))]
 
 Reifiying: Examples.Tree'
 
@@ -231,25 +231,25 @@ Optimization ratio: 504.4696204138848
 
 Deriving optimized generator...
 Visiting:Examples.Tree'
-/home/agustin/Source/git/dragen/test/Examples.hs:125:1-64: Splicing declarations
+/home/agustin/Source/git/dragen/test/Examples.hs:126:1-64: Splicing declarations
     dragenArbitrary ''Tree' 10 (weighted [('NodeA, 3), ('NodeB, 1)])
   ======>
     instance Arbitrary Tree' where
       arbitrary
-        = sized go_adgA
+        = sized go_adgI
         where
-            go_adgA n_adgB
-              = if (n_adgB == 0) then
+            go_adgI n_adgJ
+              = if (n_adgJ == 0) then
                     return Leaf
                 else
                     frequency
                       [(60, return Leaf),
                        (98, 
-                        NodeA <$> go_adgA ((max 0) (n_adgB - 1))
-                          <*> go_adgA ((max 0) (n_adgB - 1))),
+                        NodeA <$> go_adgI ((max 0) (n_adgJ - 1))
+                          <*> go_adgI ((max 0) (n_adgJ - 1))),
                        (31, 
-                        NodeB <$> go_adgA ((max 0) (n_adgB - 1))
-                          <*> go_adgA ((max 0) (n_adgB - 1)))]
+                        NodeB <$> go_adgI ((max 0) (n_adgJ - 1))
+                          <*> go_adgI ((max 0) (n_adgJ - 1)))]
 
 Reifiying: Examples.Expr
 
@@ -289,25 +289,25 @@ Optimization ratio: 183252.7491995939
 
 Deriving optimized generator...
 Visiting:Examples.Expr
-/home/agustin/Source/git/dragen/test/Examples.hs:150:1-59: Splicing declarations
+/home/agustin/Source/git/dragen/test/Examples.hs:151:1-59: Splicing declarations
     dragenArbitrary ''Expr 10 (weighted [('Var, 3), ('Lam, 1)])
   ======>
     instance Arbitrary Expr where
       arbitrary
-        = sized go_adqe
+        = sized go_adqm
         where
-            go_adqe n_adqf
-              = if (n_adqf == 0) then
+            go_adqm n_adqn
+              = if (n_adqn == 0) then
                     Var <$> arbitrary
                 else
                     frequency
                       [(82, Var <$> arbitrary),
                        (200, 
-                        App <$> go_adqe ((max 0) (n_adqf - 1))
-                          <*> go_adqe ((max 0) (n_adqf - 1))),
+                        App <$> go_adqm ((max 0) (n_adqn - 1))
+                          <*> go_adqm ((max 0) (n_adqn - 1))),
                        (69, 
-                        Lam <$> (resize ((max 0) (n_adqf - 1))) arbitrary
-                          <*> go_adqe ((max 0) (n_adqf - 1)))]
+                        Lam <$> (resize ((max 0) (n_adqn - 1))) arbitrary
+                          <*> go_adqm ((max 0) (n_adqn - 1)))]
 Ok, 1 module loaded.
-Loaded GHCi configuration from /tmp/ghci5882/ghci-script
+Loaded GHCi configuration from /tmp/ghci26761/ghci-script
 Leaving GHCi.

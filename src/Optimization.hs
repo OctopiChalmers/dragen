@@ -15,7 +15,7 @@ dot :: a -> a
 dot x = unsafePerformIO (putStr "*" >> hFlush stdout >> return x)
 
 epsilon :: Double
-epsilon = 0.0001
+epsilon = 0.00001
 
 type CostFunction = TypeEnv -> Size -> FreqMap -> Double
 
@@ -32,18 +32,9 @@ weighted weights env size freqs = chiSquareVec expected observed
     expected = map multWeight cnames
     multWeight cn = fromIntegral (fromJust (lookup cn weights) * size)
 
-without :: ([Name] -> TypeEnv -> [Name]) -> [Name] -> CostFunction
-without f names env size freqs = chiSquareVec expected observed
-  where
-    prediction = predict env size freqs
-    (cnames, observed) = unzip (Map.toList prediction)
-    expected = map applyBan cnames
-    applyBan cn
-      | cn `notElem` f names env = fromIntegral size
-      | otherwise = epsilon
 
-only :: ([Name] -> TypeEnv -> [Name]) -> [Name] -> CostFunction
-only f names env size freqs = chiSquareVec expected observed
+whitelist :: ([Name] -> TypeEnv -> [Name]) -> [Name] -> CostFunction
+whitelist f names env size freqs = chiSquareVec expected observed
   where
     prediction = predict env size freqs
     (cnames, observed) = unzip (Map.toList prediction)
@@ -52,11 +43,30 @@ only f names env size freqs = chiSquareVec expected observed
       | cn `elem` f names env = fromIntegral size
       | otherwise = epsilon
 
+blacklist :: ([Name] -> TypeEnv -> [Name]) -> [Name] -> CostFunction
+blacklist f names env size freqs = chiSquareVec expected observed
+  where
+    prediction = predict env size freqs
+    (cnames, observed) = unzip (Map.toList prediction)
+    expected = map applyBan cnames
+    applyBan cn
+      | cn `notElem` f names env = fromIntegral size
+      | otherwise = epsilon
+
+
 types :: [Name] -> TypeEnv -> [Name]
 types ts env = filter ((`elem` ts) . typeName . conType env) (consList env)
 
 constructors :: [Name] -> TypeEnv -> [Name]
 constructors names _ = names
+
+only, onlyTypes :: [Name] -> CostFunction
+only      = whitelist constructors
+onlyTypes = whitelist types
+
+without, withoutTypes :: [Name] -> CostFunction
+without      = blacklist constructors
+withoutTypes = blacklist types
 
 --------------------------------------------------------------------------------
 

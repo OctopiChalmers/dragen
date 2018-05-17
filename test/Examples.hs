@@ -36,6 +36,7 @@ instance Countable Tree
 -- Now we derive and optimize a random generator for Tree, defining an Arbitrary
 -- Tree class instance. The predicted distribution of the derived generator is
 -- shown in the derivation process as follows:
+
 dragenArbitrary ''Tree 10 uniform
 
 -- Finally, we can confirm the predicted distribution of this derived generator
