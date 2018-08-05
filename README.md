@@ -1,3 +1,5 @@
+![](img/logo.png)
+
 # DRaGEN - Derivation of RAndom GENerators
 
 To test the tool please run:
