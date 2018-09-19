@@ -7,8 +7,10 @@ To test the tool please run:
 ```
 $ stack setup
 $ stack build
-$ stack ghci --ghc-options -ddump-splices test/Examples.hs
+$ stack test
 ```
+
+Please make sure you have `BLAS` and `LAPACK` installed in your system before compiling.
 
 The output of the last command can be found in `test/Examples.hs.output`.
 
