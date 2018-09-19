@@ -1,6 +1,11 @@
-GHCi, version 8.2.1: http://www.haskell.org/ghc/  :? for help
-Loaded GHCi configuration from /home/agustin/.ghci
-[1 of 1] Compiling Examples         ( /home/agustin/Source/git/dragen/test/Examples.hs, interpreted )
+dragen-0.1.0.0: unregistering (local file changes: test/Examples.hs)
+dragen-0.1.0.0: build (lib + test)
+Preprocessing library for dragen-0.1.0.0..
+Building library for dragen-0.1.0.0..
+ignoring (possibly broken) abi-depends field for packages
+Preprocessing test suite 'examples' for dragen-0.1.0.0..
+Building test suite 'examples' for dragen-0.1.0.0..
+[1 of 2] Compiling Examples         ( test/Examples.hs, .stack-work/dist/x86_64-linux/Cabal-2.2.0.1/build/examples/examples-tmp/Examples.o )
 
 Reifiying: Examples.Tree
 
@@ -40,23 +45,6 @@ Optimization ratio: 4.000132121304503
 
 Deriving optimized generator...
 Visiting:Examples.Tree
-/home/agustin/Source/git/dragen/test/Examples.hs:40:1-33: Splicing declarations
-    dragenArbitrary ''Tree 10 uniform
-  ======>
-    instance Arbitrary Tree where
-      arbitrary
-        = sized go_abNv
-        where
-            go_abNv n_abNw
-              = if (n_abNw == 0) then
-                    frequency
-                      [(113, return LeafA), (113, return LeafB), (112, return LeafC)]
-                else
-                    frequency
-                      [(113, return LeafA), (113, return LeafB), (112, return LeafC),
-                       (497, 
-                        Node <$> go_abNv ((max 0) (n_abNw - 1))
-                          <*> go_abNv ((max 0) (n_abNw - 1)))]
 
 Reifiying: Examples.T1
 
@@ -97,33 +85,6 @@ Optimization ratio: 8.194536629244077
 Deriving optimized generator...
 Visiting:Examples.T1
 Visiting:Examples.T2
-/home/agustin/Source/git/dragen/test/Examples.hs:73:1-31: Splicing declarations
-    dragenArbitrary ''T1 10 uniform
-  ======>
-    instance Arbitrary T2 where
-      arbitrary
-        = sized go_ad0Q
-        where
-            go_ad0Q n_ad0R
-              = if (n_ad0R == 0) then
-                    return C
-                else
-                    frequency
-                      [(90, return C),
-                       (199, D <$> (resize ((max 0) (n_ad0R - 1))) arbitrary)]
-    instance Arbitrary T1 where
-      arbitrary
-        = sized go_ad0S
-        where
-            go_ad0S n_ad0T
-              = if (n_ad0T == 0) then
-                    return A
-                else
-                    frequency
-                      [(70, return A),
-                       (214, 
-                        B <$> go_ad0S ((max 0) (n_ad0T - 1))
-                          <*> (resize ((max 0) (n_ad0T - 1))) arbitrary)]
 
 Reifiying: Examples.Rose
 
@@ -179,23 +140,6 @@ Optimization ratio: 3.6528556278190876
 
 Deriving optimized generator...
 Visiting:Examples.Rose
-/home/agustin/Source/git/dragen/test/Examples.hs:99:1-33: Splicing declarations
-    dragenArbitrary ''Rose 10 uniform
-  ======>
-    instance Arbitrary Rose where
-      arbitrary
-        = sized go_ad7o
-        where
-            go_ad7o n_ad7p
-              = if (n_ad7p == 0) then
-                    RLeaf <$> arbitrary
-                else
-                    frequency
-                      [(100, RLeaf <$> arbitrary),
-                       (101, 
-                        RNode
-                          <$>
-                            (resize ((max 0) (n_ad7p - 1))) ((Arbitrary.customListGen 2) 415))]
 
 Reifiying: Examples.Tree'
 
@@ -231,25 +175,6 @@ Optimization ratio: 504.4696204138848
 
 Deriving optimized generator...
 Visiting:Examples.Tree'
-/home/agustin/Source/git/dragen/test/Examples.hs:126:1-64: Splicing declarations
-    dragenArbitrary ''Tree' 10 (weighted [('NodeA, 3), ('NodeB, 1)])
-  ======>
-    instance Arbitrary Tree' where
-      arbitrary
-        = sized go_adgI
-        where
-            go_adgI n_adgJ
-              = if (n_adgJ == 0) then
-                    return Leaf
-                else
-                    frequency
-                      [(60, return Leaf),
-                       (98, 
-                        NodeA <$> go_adgI ((max 0) (n_adgJ - 1))
-                          <*> go_adgI ((max 0) (n_adgJ - 1))),
-                       (31, 
-                        NodeB <$> go_adgI ((max 0) (n_adgJ - 1))
-                          <*> go_adgI ((max 0) (n_adgJ - 1)))]
 
 Reifiying: Examples.Expr
 
@@ -289,25 +214,71 @@ Optimization ratio: 183252.7491995939
 
 Deriving optimized generator...
 Visiting:Examples.Expr
-/home/agustin/Source/git/dragen/test/Examples.hs:151:1-59: Splicing declarations
-    dragenArbitrary ''Expr 10 (weighted [('Var, 3), ('Lam, 1)])
-  ======>
-    instance Arbitrary Expr where
-      arbitrary
-        = sized go_adqm
-        where
-            go_adqm n_adqn
-              = if (n_adqn == 0) then
-                    Var <$> arbitrary
-                else
-                    frequency
-                      [(82, Var <$> arbitrary),
-                       (200, 
-                        App <$> go_adqm ((max 0) (n_adqn - 1))
-                          <*> go_adqm ((max 0) (n_adqn - 1))),
-                       (69, 
-                        Lam <$> (resize ((max 0) (n_adqn - 1))) arbitrary
-                          <*> go_adqm ((max 0) (n_adqn - 1)))]
-Ok, 1 module loaded.
-Loaded GHCi configuration from /tmp/ghci26761/ghci-script
-Leaving GHCi.
+
+Reifiying: Examples.Lisp
+
+Types involved with Examples.Lisp:
+[Base Examples.Lisp,Base Examples.Text,Base GHC.Types.Int,App (Base GHC.Types.[]) (Base Examples.Lisp)]
+
+Initial frequencies map:
+ * (GHC.Types.:,100)
+ * (GHC.Types.[],100)
+ * (Examples.List,100)
+ * (Examples.Number,100)
+ * (Examples.String,100)
+ * (Examples.Symbol,100)
+ * (Examples.Text,100)
+ * (GHC.Types.Int,100)
+
+Predicted distribution for the initial frequencies map:
+ * (GHC.Types.:,0.323272705078125)
+ * (GHC.Types.[],0.32965087890625)
+ * (Examples.List,0.32965087890625)
+ * (Examples.Number,0.331207275390625)
+ * (Examples.String,0.331207275390625)
+ * (Examples.Symbol,0.331207275390625)
+ * (Examples.Text,0.66241455078125)
+ * (GHC.Types.Int,0.331207275390625)
+
+Optimizing the frequencies map:
+*********************************************************************************************************************************************************************************************************************************************************************************
+
+Optimized frequencies map:
+ * (GHC.Types.:,19069)
+ * (GHC.Types.[],1)
+ * (Examples.List,298)
+ * (Examples.Number,120)
+ * (Examples.String,81)
+ * (Examples.Symbol,81)
+ * (Examples.Text,100)
+ * (GHC.Types.Int,100)
+
+Predicted distribution for the optimized frequencies map:
+ * (GHC.Types.:,17.838586498464217)
+ * (GHC.Types.[],7.0449940565497196)
+ * (Examples.List,7.0449940565497196)
+ * (Examples.Number,5.018549975282765)
+ * (Examples.String,3.3875212333158666)
+ * (Examples.Symbol,3.3875212333158666)
+ * (Examples.Text,6.775042466631733)
+ * (GHC.Types.Int,5.018549975282765)
+
+Initial cost: 74.18030684152617
+Final cost: 22.63873492147949
+Optimization ratio: 3.2766984152963587
+
+Deriving optimized generator...
+Visiting:Examples.Lisp
+Visiting:Examples.Text
+Linking .stack-work/dist/x86_64-linux/Cabal-2.2.0.1/build/examples/examples ...
+dragen-0.1.0.0: copy/register
+Installing library in /home/agustin/Source/git/dragen/.stack-work/install/x86_64-linux/lts-12.10/8.4.3/lib/x86_64-linux-ghc-8.4.3/dragen-0.1.0.0-CSeoa7Jrsit8oJxNYjP8cU
+Registering library for dragen-0.1.0.0..
+dragen-0.1.0.0: test (suite: examples)
+
+
+
+Examples were compiled correctly!
+
+dragen-0.1.0.0: Test suite examples passed
+Completed 2 action(s).

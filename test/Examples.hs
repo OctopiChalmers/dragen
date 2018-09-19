@@ -16,6 +16,7 @@ deriving instance Generic Int
 instance Countable Int
 instance Countable a => Countable (Maybe a)
 
+--------------------------------------------------------------------------------
 
 --
 -- Binary tree with three kinds of leafs
@@ -52,7 +53,6 @@ confirmTree = confirm 10 (arbitrary :: Gen Tree)
 
 --------------------------------------------------------------------------------
 
-
 --
 -- Mutually recursive data types
 --
@@ -80,7 +80,6 @@ confirmT1 = confirm 10 (arbitrary :: Gen T1)
 --  * ("D",7.63757)
 
 --------------------------------------------------------------------------------
-
 
 --
 -- Rose trees (mutually recursive between Rose and [] data types) with composite
@@ -137,7 +136,6 @@ confirmTree' = confirm 10 (arbitrary :: Gen Tree')
 -- Lambda expressions with weighted generation
 --
 
-
 data Expr
   = Var Char
   | App Expr Expr
@@ -156,4 +154,37 @@ confirmExpr = confirm 10 (arbitrary :: Gen Expr)
 --  * ("C#",40.21184)   (boxed char)
 --  * ("Lam",10.06153)
 --  * ("Var",30.15031)
+
+--------------------------------------------------------------------------------
+
+--
+-- Lisp expressions used in the paper presentation
+--
+
+data Text 
+  = Text
+  deriving (Show, Generic)
+
+data Lisp
+  = Symbol Text
+  | String Text
+  | Number Int
+  | List [Lisp]
+  deriving (Show, Generic)
+
+instance Countable Text
+instance Countable Lisp
+
+dragenArbitrary ''Lisp 10 uniform
+
+confirmLisp = confirm 10 (arbitrary :: Gen Lisp)
+-- =====>
+-- * (GHC.Types.:,17.838586498464217)
+-- * (GHC.Types.[],7.0449940565497196)
+-- * (Examples.List,7.0449940565497196)
+-- * (Examples.Number,5.018549975282765)
+-- * (Examples.String,3.3875212333158666)
+-- * (Examples.Symbol,3.3875212333158666)
+-- * (Examples.Text,6.775042466631733)
+-- * (GHC.Types.Int,5.018549975282765)
 
