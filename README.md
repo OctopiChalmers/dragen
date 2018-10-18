@@ -1,6 +1,6 @@
 ![](img/logo.png)
 
-# DRAGEN - Derivation of RAndom GENerators
+# DRAGEN - Derivation of Random Generators
 
 To test the tool please run:
 
