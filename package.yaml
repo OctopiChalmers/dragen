@@ -1,0 +1,64 @@
+name:                dragen
+version:             0.1.0.0
+github:              "OctopiChalmers/dragen"
+license:             BSD3
+license-file:        LICENSE
+author:              "Agustín Mista"
+maintainer:          "Agustín Mista"
+copyright:           "2018 Agustín Mista"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+synopsis:
+  Automatic derivation of optimized QuickCheck random generators.
+
+category: Testing
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+
+description: DRAGEN is a Template Haskell tool for automatically deriving
+  QuickCheck generators in compile-time. The user sets a desired distribution of
+  values, and DRAGEN will try optimize the generation parameters to satisfy it
+  using probabilistic analyses based on multi-type branching processes.
+
+  DRAGEN is based on the following paper
+
+  Branching processes for QuickCheck generators. Agustín Mista, Alejandro Russo,
+  John Hughes. Haskell Symposium, 2018.
+  https://dl.acm.org/citation.cfm?doid=3242744.3242747
+
+dependencies:
+  - base >= 4.7 && < 5
+  - template-haskell
+  - transformers
+  - containers
+  - QuickCheck
+  - ghc-prim
+  - matrix
+  - extra
+  - split
+
+library:
+  source-dirs:
+    - src
+  exposed-modules:
+    - Countable
+    - Dragen
+    - TypeInfo
+    - Reification
+    - Prediction
+    - Optimization
+    - Arbitrary
+    - Megadeth
+
+tests:
+  examples:
+    main: Main.hs
+    source-dirs: test/
+    dependencies:
+      - dragen
+      - text

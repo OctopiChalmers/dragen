@@ -20,15 +20,13 @@ import Optimization
 import Arbitrary
 
 
-putStrLnQ :: String -> Q ()
-putStrLnQ = runIO . putStrLn
-
-
--- Derives an Abitrary instance for the type _target_, optimizing each type
+-- | Derives an Abitrary instance for the type `target`, optimizing each type
 -- constructor frequency in order to minimize the output of a given cost
 -- function.
 dragenArbitrary  :: Name -> Size -> CostFunction -> DecsQ
 dragenArbitrary target size cost = do
+
+  let putStrLnQ = runIO . putStrLn
 
   putStrLnQ $ "\nReifiying: " ++ show target
 
@@ -45,7 +43,7 @@ dragenArbitrary target size cost = do
   putStrLnQ $ showMap freqMap
   putStrLnQ $ "\nPredicted distribution for the initial frequencies map:"
   putStrLnQ $ showMap prediction
-  
+
   putStrLnQ $ "\nOptimizing the frequencies map:"
   let !optimized = optimizeLS targetEnv size cost freqMap
       !prediction' = predict targetEnv size optimized
@@ -55,7 +53,7 @@ dragenArbitrary target size cost = do
   putStrLnQ $ showMap optimized
   putStrLnQ $ "\nPredicted distribution for the optimized frequencies map:"
   putStrLnQ $ showMap prediction'
-  
+
   putStrLnQ $ "\nInitial cost: " ++ show initCost
   putStrLnQ $ "Final cost: " ++ show finalCost
   putStrLnQ $ "Optimization ratio: " ++ show (initCost / finalCost)
