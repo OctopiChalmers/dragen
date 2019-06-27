@@ -23,6 +23,22 @@ import Arbitrary
 -- | Derives an Abitrary instance for the type `target`, optimizing each type
 -- constructor frequency in order to minimize the output of a given cost
 -- function.
+--
+-- IMPORTANT: This function must be called with non-parametric (@kind ~ *@)
+-- type names, since we can not resolve the implicit type vars. To reify fully
+-- instantiated parametric types, first define a non-parametric type synonym of
+-- the target (e.g. @type MaybeInt = Maybe Int@).
+--
+--  @
+--  data Parametric param = ...
+--
+--  -- NG: Can't resolve the type parameter!
+--  $(dragenArbitrary ''Parametric 10 uniform)
+--
+--  -- OK: Use type synonym by applying to a concrete type
+--  type ParametricInt = Parametric Int
+--  $(dragenArbitrary ''ParametricInt 10 uniform)
+--  @
 dragenArbitrary  :: Name -> Size -> CostFunction -> DecsQ
 dragenArbitrary target size cost = do
 
