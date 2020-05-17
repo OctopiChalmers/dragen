@@ -8,3 +8,5 @@ packages:
 extra-deps: []
 
 resolver: lts-12.10
+
+pvp-bounds: both

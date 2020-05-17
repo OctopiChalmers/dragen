@@ -33,7 +33,8 @@ dragenArbitrary target size cost = do
   targetEnv <- reifyNameEnv target
 
   putStrLnQ $ "\nTypes involved with " ++ show target ++ ":"
-  putStrLnQ $ show (map tsig targetEnv)
+  -- putStrLnQ $ show (map tsig targetEnv)
+  mapM_ (putStrLnQ . show) targetEnv
 
   let !freqMap = initMap targetEnv
       !prediction = predict targetEnv size freqMap

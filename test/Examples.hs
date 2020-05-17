@@ -22,11 +22,18 @@ instance Countable a => Countable (Maybe a)
 -- Binary tree with three kinds of leafs
 --
 
+-- data Tree
+--   = LeafA
+--   | LeafB
+--   | LeafC
+--   | Node Tree Tree
+--   deriving (Show, Generic)
+
 data Tree
   = LeafA
   | LeafB
-  | LeafC
   | Node Tree Tree
+  | Fork Tree Tree Tree
   deriving (Show, Generic)
 
 -- Countable generic typeclass let us count the number of each kind of
@@ -39,6 +46,8 @@ instance Countable Tree
 -- shown in the derivation process as follows:
 
 dragenArbitrary ''Tree 10 uniform
+-- dragenArbitrary ''Tree 10 (weighted [('LeafA, 2), ('Node, 3)])
+-- dragenArbitrary ''Tree 10 (only ['LeafA, 'Node])
 
 -- Finally, we can confirm the predicted distribution of this derived generator
 -- sampling a big number of values, and averaging the number of generated
@@ -136,19 +145,19 @@ confirmTree' = confirm 10 (arbitrary :: Gen Tree')
 -- Lambda expressions with weighted generation
 --
 
-data Expr
-  = Var Char
-  | App Expr Expr
-  | Lam Char Expr
+data Expr a
+  = Var a
+  | App (Expr a) (Expr a)
+  | Lam a (Expr a)
   deriving (Show, Generic)
 
 deriving instance Generic Char
 instance Countable Char
-instance Countable Expr
+instance Countable a => Countable (Expr a)
 
 dragenArbitrary ''Expr 10 (weighted [('Var, 3), ('Lam, 1)])
 
-confirmExpr = confirm 10 (arbitrary :: Gen Expr)
+confirmExpr = confirm 10 (arbitrary :: Gen (Expr Char))
 -- =====>
 --  * ("App",29.15031)
 --  * ("C#",40.21184)   (boxed char)
@@ -187,4 +196,44 @@ confirmLisp = confirm 10 (arbitrary :: Gen Lisp)
 -- * (Examples.Symbol,3.3875212333158666)
 -- * (Examples.Text,6.775042466631733)
 -- * (GHC.Types.Int,5.018549975282765)
+
+data MB a = None | Some a
+
+data Two = One | Two
+
+type T = MB Two
+
+dragenArbitrary ''T 10 uniform
+
+data Top    
+  = RndExp RndExp
+  | PatExp PatExp
+  deriving (Show, Generic)
+
+data RndExp 
+  = LitExp Int    
+  | AddExp Top Top 
+  deriving (Show, Generic)
+
+data PatExp 
+  = Pat1 Top      
+  | Pat2 Top 
+  deriving (Show, Generic)
+
+dragenArbitrary ''Top 10 uniform
+
+
+
+
+
+data Exp_ = Val Int | Add Exp_ Exp_ | Mul Exp_ Exp_ deriving (Show, Generic)
+
+dragenArbitrary ''Exp_ 50 (weighted [('Add, 20)])
+
+
+
+
+
+
+
 

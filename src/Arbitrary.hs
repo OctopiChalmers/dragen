@@ -3,9 +3,10 @@
 
 module Arbitrary where
 
+import Control.Monad
 import Data.Maybe
 import Data.List
-import Data.Map.Strict ((!)) 
+import Data.Map.Strict ((!))
 import qualified Data.Map.Strict as Map
 
 import Test.QuickCheck
@@ -98,7 +99,7 @@ deriveArbitraryInstance env freqs target = reify target >>= \case
 
   {- data T {...} = C1 {...} | C2 {...} | ... -}
   TyConI (DataD _ _ params _ cons _) -> do
-    let paramExps = map varT (paramNames params)
+    let paramExps = map varT (take (length params) varNames)
         allCons = map (updateMutRec env . simpleConView target) cons
         (recCons, termCons) = partition recursive allCons
 
@@ -115,6 +116,8 @@ deriveArbitraryInstance env freqs target = reify target >>= \case
             = condE [| $(varE nName) == 0 |]
                 (frequencyExpQ freqs goName nName target termCons)
                 (frequencyExpQ freqs goName nName target allCons)
+
+    runIO . putStrLn $ "---->  " ++ show params
 
     if not (null paramExps)
     then
@@ -137,7 +140,7 @@ deriveArbitraryInstance env freqs target = reify target >>= \case
 
   {- newtype T {...} = SingleCon {...} -}
   TyConI (NewtypeD _ _ params _ con _) -> do
-    let paramExps = map varT (paramNames params)
+    let paramExps = map varT (take (length params) varNames)
         singleCon = simpleConView target con
 
     if not (null paramExps)
@@ -164,7 +167,7 @@ deriveArbitraryInstance env freqs target = reify target >>= \case
 
       {- type T {...} = ({...}, {...}, ...) -}
       (TupleT n) -> do
-        let paramExps = map varT (paramNames params)
+        let paramExps = map varT (take (length params) varNames)
 
         if not (null paramExps)
         then

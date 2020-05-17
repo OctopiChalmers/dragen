@@ -193,7 +193,7 @@ predict env size freqs = prediction
 -- E.g.  confirm 10 (arbitrary @Tree)
 confirm :: (Countable a) => Size -> Gen a -> IO ()
 confirm size arb = do
-  let samples = 100000
+  let samples = 1000000
   values <- sequence (replicate samples (generate (resize size arb)))
   let consCount = Map.unionsWith (+) (map count values)
       consAvg = Map.map (\c -> fromIntegral c / fromIntegral samples) consCount
